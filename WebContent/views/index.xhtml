@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body style="background-color: black;">
+
+
+	<p:panel header="Select DDL file" style="margin-left: 5%; width: 80%;">
+		<p:growl id="messages" showDetail="true" />
+		<h:form enctype="multipart/form-data">
+			<p:fileUpload value="#{fileUpload.upload}" mode="simple" skinSimple="true" />
+			<p:commandButton value="Upload" ajax="false" action="#{fileUpload.handleFileUpload}"  update="textView textArea"/>
+		</h:form>
+	</p:panel>
+	
+	<p:panel header="File Content" style="margin: 5%; width: 80%;" id="textView">
+		 <h:form>
+		 	<p:inputTextarea id="textArea" rows="30" cols="100" autoResize="false" value="#{fileUpload.input}"/>
+		 
+		
+			<p:commandButton icon="ui-icon-play" value="Next"
+				action="#{fileUpload.parse}" />
+		</h:form>
+	</p:panel>
+
+
+</h:body>
+</html>
