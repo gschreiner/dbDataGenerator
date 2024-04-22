@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body style="background-color: black;">
+
+	<script type="text/javascript">
+    	//<![CDATA[
+    	function start() {
+        	PF('statusDialog').show();
+    	}
+
+    	function stop() {
+        	PF('statusDialog').hide();
+    	}
+    	//]]>
+	</script>
+	
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false"
+              resizable="false">
+              <i class="pi pi-spinner pi-spin" style="font-size:3rem"></i>
+    </p:dialog>
+
+
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+		
+		<p:panel>
+			
+                <p:outputLabel for="maxValue" value="Default Size Tables"/>
+                <p:inputNumber id="maxValue" value="#{tablesController.maxValue}" modifyValueOnWheel="false" style="margin-left: 5px;"/>
+                
+                 
+                 <p:commandButton value="Parametrize" ajax="false" action="#{tablesController.resetMaxNumber}" style="margin-left: 15px;" update="dataView dataTree"/>
+       
+       			<h:form>
+        			<p:commandButton value="Generate Data" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+                         icon="pi pi-arrow-down" styleClass="p-mr-2">
+            			<p:fileDownload value="#{tablesController.file}"/>
+        			</p:commandButton>
+       			 </h:form>
+       
+      			<p:commandButton value="Generate Data" ajax="false" action="#{tablesController.convertDB}" style="float: right;" update="dataView dataTree"/>
+         </p:panel>
+
+		<p:panel header="Database Generation" style="margin: 5%; width: 80%;" id="dataView">
+			<p:treeTable value="#{tablesController.rootDatabase}" editable="true"
+				var="document" id="dataTree">
+
+				<p:ajax event="rowEdit" listener="#{tablesController.rowEdit}"
+					update=":form:msgs" />
+
+				<p:column headerText="Name"  style="width:18rem">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{document.label}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{document.label}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Type">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{document.type}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{document.type}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Data Type">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{document.dataType}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{document.dataType}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Probability">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{document.probability}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{document.probability}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Number">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{document.number}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{document.number}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="Size">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{document.size}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{document.size}" style="width:100%" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column style="width:2rem">
+					<p:rowEditor />
+				</p:column>
+			</p:treeTable>
+		</p:panel>
+	</h:form>
+
+
+</h:body>
+</html>
